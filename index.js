@@ -13,14 +13,10 @@ var cli_args = [
   'activate',
   'open',
   'execute',
+  'appIcon'
 ];
 
-function appBinPath(type) {
-  return path.join(__dirname, 'osx', 'terminal-notifier-' + type + '.app', 'Contents', 'MacOS', 'terminal-notifier');
-}
-
 module.exports = function(opts) {
-  var file = appBinPath(opts.type);
   var args = [];
   cli_args.forEach(function(arg) {
     if (opts[arg]) args.push('-' + arg, opts[arg]);
@@ -29,7 +25,7 @@ module.exports = function(opts) {
   if (opts.verbose) {
     console.log(file, args);
   }
-  child_process.execFile(file, args, {}, function(err, stdout, stderr) {
+  child_process.execFile('terminal-notifier', args, {}, function(err, stdout, stderr) {
     if (err) {
       console.error('execFile(' + file + ')');
       if (stdout) {
